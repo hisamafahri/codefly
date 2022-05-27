@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NavBar() {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 border-b border-gray-400">
       <div className="flex-1">
         <Link href="/">
           <p className="btn btn-ghost normal-case text-xl">CodeFly</p>
