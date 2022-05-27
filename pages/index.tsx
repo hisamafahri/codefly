@@ -31,7 +31,7 @@ function NavBar() {
           <p className="btn btn-ghost normal-case text-xl">CodeFly</p>
         </Link>
       </div>
-      <div className="flex-none">
+      <div className="flex-none tooltip tooltip-left" data-tip="⭐️ Star us on GitHub!">
         <a
           aria-label="Github"
           target="_blank"
