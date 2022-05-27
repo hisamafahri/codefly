@@ -1,7 +1,10 @@
 export default function AddDescriptionSection() {
   return (
     <div>
-      <p className="mb-2">Give your codes some description</p>
+      <h1 className="text-3xl font-bold mb-8">Let your codes fly 🚀</h1>
+      <p className="mb-2 text-base">
+        Give your codes some description (max. 1024)
+      </p>
       <textarea
         className="textarea textarea-bordered w-full h-36 mb-6"
         maxLength={1024}
