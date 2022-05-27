@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -26,16 +27,16 @@ function NavBar() {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a href="/" className="btn btn-ghost normal-case text-xl">
-          CodeFly
-        </a>
+        <Link href="/">
+          <p className="btn btn-ghost normal-case text-xl">CodeFly</p>
+        </Link>
       </div>
       <div className="flex-none">
         <a
           aria-label="Github"
           target="_blank"
           href="https://github.com/hisamafahri/codefly"
-          rel="noopener"
+          rel="noreferrer"
           className="btn btn-ghost drawer-button btn-square normal-case"
         >
           <svg
