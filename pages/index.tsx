@@ -34,7 +34,7 @@ function AddCodeSection() {
     const input = event.target.value;
     setFileName(input);
     const language = checkLanguage(input.split(".").pop());
-    setLanguage(language)
+    setLanguage(language);
   }
   function handleOnBlur() {
     if (fileName.replace(/\s/g, "") == "") {
