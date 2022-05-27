@@ -4,6 +4,7 @@ import NavBar from "../components/navigations/NavBar";
 import Header from "../components/utils/Header";
 import Editor from "@monaco-editor/react";
 import { useState } from "react";
+import checkLanguage from "../utils/checkLanguage";
 
 const Home: NextPage = () => {
   return (
@@ -28,8 +29,12 @@ export default Home;
 
 function AddCodeSection() {
   const [fileName, setFileName] = useState("Untitled");
+  const [language, setLanguage] = useState("");
   function handleInput(event: any) {
-    setFileName(event.target.value);
+    const input = event.target.value;
+    setFileName(input);
+    const language = checkLanguage(input.split(".").pop());
+    setLanguage(language)
   }
   function handleOnBlur() {
     if (fileName.replace(/\s/g, "") == "") {
@@ -38,7 +43,10 @@ function AddCodeSection() {
   }
   return (
     <div>
-      <div className="flex w-min tooltip" data-tip="Add file extension to get proper syntax highlighting" >
+      <div
+        className="flex w-min tooltip"
+        data-tip="Add file extension to get proper syntax highlighting"
+      >
         <input
           className="pl-4 pr-12 py-3 bg-base-200 text-sm outline-none tooltip text-left"
           onChange={handleInput}
@@ -52,7 +60,7 @@ function AddCodeSection() {
         options={{
           fontSize: 14,
         }}
-        defaultLanguage="rust"
+        language={language}
         defaultValue=""
         value=""
         // onChange={onEditorChange}
