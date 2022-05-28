@@ -4,7 +4,7 @@ import NavBar from "../components/navigations/NavBar";
 import Header from "../components/utils/Header";
 import Editor from "@monaco-editor/react";
 import { useState } from "react";
-import checkLanguage from "../utils/checkLanguage";
+import checkExtension from "../utils/checkExtension";
 
 const Home: NextPage = () => {
   return (
@@ -33,7 +33,17 @@ function AddCodeSection() {
   function handleInput(event: any) {
     const input = event.target.value;
     setFileName(input);
-    const language = checkLanguage(input.split(".").pop());
+    const language = checkExtension(input.split(".").pop());
+    if (language == "" || language == undefined) {
+      if (fileName == "Dockerfile" || fileName == "Containerfile") {
+        setLanguage(fileName);
+        return;
+      }
+
+      setLanguage(language);
+      return;
+    }
+
     setLanguage(language);
   }
   function handleOnBlur() {
