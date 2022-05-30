@@ -34,7 +34,7 @@ export default function AddCodeSection({
           fontSize: 14,
         }}
         language={language}
-        defaultValue=""
+        // defaultValue=""
         value=""
       />
     </div>
