@@ -49,6 +49,8 @@ const Home: NextPage = () => {
                 >
                     <AddDescriptionSection />
                     <AddCodeSection
+                        value=""
+                        readOnly={false}
                         onChange={handleInput}
                         onBlur={handleOnBlur}
                         language={language}
