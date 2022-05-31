@@ -22,7 +22,7 @@ function ReadSection() {
     const fileName = "index.js";
     return (
         <div className="px-16 mt-12 h-screen">
-            <h1 className="text-3xl font-bold mb-4">Here's the Code ⭐️</h1>
+            <h1 className="text-3xl font-bold mb-4">Here&apos;s the Code ⭐️</h1>
 
             <p className="mb-2 text-base">Description:</p>
             <p className="mb-12 text-base">

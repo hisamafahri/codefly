@@ -46,8 +46,8 @@ const Home: NextPage = () => {
     }
 
     function onShare() {
-        setIsErrorVisible(true);
-        // setIsSuccessVisible(true);
+        // setIsErrorVisible(true);
+        setIsSuccessVisible(true);
     }
 
     return (
@@ -76,7 +76,6 @@ const Home: NextPage = () => {
                 />
                 <SuccessModal
                     isVisible={isSuccessVisible}
-                    onClose={() => setIsSuccessVisible(false)}
                     url={"https://codefly.dev/j3hdwij"}
                 />
             </main>

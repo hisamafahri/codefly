@@ -15,7 +15,7 @@ export default function NavBar({ isShareButtonVisible = false }: Props) {
             <div className="flex-none">
                 <ul className="menu menu-horizontal p-0">
                     <li className={isShareButtonVisible ? "" : "hidden"}>
-                        <a href="/">Share Your Code</a>
+                        <Link href="/">Share Your Code</Link>
                     </li>
 
                     <li>

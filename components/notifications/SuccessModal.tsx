@@ -1,12 +1,11 @@
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 
 type Props = {
     isVisible: boolean;
-    onClose: MouseEventHandler<HTMLButtonElement> | undefined;
     url?: string;
 };
 
-export default function SuccessModal({ isVisible, onClose, url }: Props) {
+export default function SuccessModal({ isVisible, url }: Props) {
     let urlType = new URL(url as string);
     let path = urlType.pathname;
     const [isCopyInProgress, SetIsCopyInProgress] = useState(false);
@@ -15,7 +14,7 @@ export default function SuccessModal({ isVisible, onClose, url }: Props) {
         navigator.clipboard.writeText(url as string);
         setTimeout(() => {
             SetIsCopyInProgress(false);
-        }, 250);
+        }, 400);
     }
     return (
         <>
@@ -73,11 +72,11 @@ export default function SuccessModal({ isVisible, onClose, url }: Props) {
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    stroke-width="2"
+                                    strokeWidth="2"
                                 >
                                     <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                         d="M5 13l4 4L19 7"
                                     />
                                 </svg>
@@ -85,13 +84,11 @@ export default function SuccessModal({ isVisible, onClose, url }: Props) {
                         </div>
                     </div>
                     <div className="modal-action">
-                        <button onClick={onClose} className="btn btn-ghost">
-                            Close
-                        </button>
+                        <a href={"/"} className="btn btn-ghost">Upload Another One</a>
                         <a
                             href={path}
                             target="_blank"
-                            rel="norefferer"
+                            rel="noreferrer"
                             className="btn btn-primary"
                         >
                             Open&nbsp;{" "}
