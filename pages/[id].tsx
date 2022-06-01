@@ -3,6 +3,7 @@ import Image from "next/image";
 import NavBar from "../components/navigations/NavBar";
 import CodeSection from "../components/sections/CodeSection";
 import Header from "../components/utils/Header";
+import { getEntry } from "../utils/getEntry";
 
 const Read = ({
     data,
@@ -80,10 +81,7 @@ function ReadSection({ description, language, fileName, codeValue }: Props) {
 
 export const getServerSideProps = async (context: any) => {
     const { id } = context.query;
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/get/${id}`
-    );
-    const data: any = await res.json();
+    const data = await getEntry(id);
 
     return {
         props: {

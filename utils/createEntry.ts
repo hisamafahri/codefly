@@ -3,7 +3,7 @@ type Props = {
 };
 
 export async function createEntry({ payload }: Props) {
-    return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/post`, {
+    return await fetch("/api/post", {
         method: "post",
         headers: {
             Accept: "application/json",
