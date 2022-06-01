@@ -4,7 +4,7 @@ _Work in progress..._
 
 ## Syntax Highliting
 
-We use the [Linguist's languages list](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) as our reference for the proper syntax highlighting based on the given file format. But currently the languges [listed here](https://microsoft.github.io/monaco-editor/) are supported.
+We use the [Linguist's languages list](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml) as our reference for the proper syntax highlighting based on the given file format. But currently we only support the languges [listed here](https://microsoft.github.io/monaco-editor/).
 
 ## Development
 
@@ -17,12 +17,6 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Branches
-
-- `main` - For general development purposes
-- `stage` - Staging branch
-- `prod` - Production branch
 
 ## Author
 
