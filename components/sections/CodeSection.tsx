@@ -3,20 +3,22 @@ import { ChangeEventHandler, FocusEventHandler } from "react";
 
 type Props = {
   readOnly: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement> | undefined;
+  onFileNameChange: ChangeEventHandler<HTMLInputElement> | undefined;
+  onEditorChange: any,
   fileName: string | number | readonly string[] | undefined;
   onBlur: FocusEventHandler<HTMLInputElement> | undefined;
   language: string | undefined;
-  value: string | undefined;
+  editorValue: string | undefined;
 };
 
 export default function CodeSection({
   readOnly,
-  onChange,
+  onFileNameChange,
+  onEditorChange,
   fileName,
   onBlur,
   language,
-  value,
+  editorValue,
 }: Props) {
   return (
     <div className="h-full">
@@ -28,7 +30,7 @@ export default function CodeSection({
           className={`pl-4 pr-12 py-3 bg-base-200 text-sm outline-none tooltip text-left ${
             readOnly ? "cursor-default" : "cursor-text"
           }`}
-          onChange={onChange}
+          onChange={onFileNameChange}
           value={fileName}
           onBlur={onBlur}
           readOnly={readOnly}
@@ -42,7 +44,8 @@ export default function CodeSection({
           readOnly: readOnly,
         }}
         language={language}
-        value={value}
+        value={editorValue}
+        onChange={onEditorChange}
       />
     </div>
   );

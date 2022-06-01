@@ -14,7 +14,11 @@ const Read = ({
                 <main className="font-mono">
                     <NavBar isShareButtonVisible={true} />
                     <div className="mt-24 justify-center flex w-full">
-                        <Image src="/404.jpeg" width={"750px"} height={"600px"} />
+                        <Image
+                            src="/404.jpeg"
+                            width={"750px"}
+                            height={"600px"}
+                        />
                     </div>
                 </main>
             </>
@@ -62,12 +66,13 @@ function ReadSection({ description, language, fileName, codeValue }: Props) {
             <p className="mb-12 text-base">{description}</p>
 
             <CodeSection
+                editorValue={codeValue}
+                onEditorChange={() => {}}
                 readOnly={true}
-                onChange={() => {}}
+                onFileNameChange={() => {}}
                 onBlur={() => {}}
                 language={language}
                 fileName={fileName}
-                value={codeValue}
             />
         </div>
     );
