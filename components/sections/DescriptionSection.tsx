@@ -5,7 +5,7 @@ type Props = {
   isUploading: boolean;
 };
 
-export default function AddDescriptionSection({
+export default function DescriptionSection({
   onShareClick,
   isUploading,
 }: Props) {

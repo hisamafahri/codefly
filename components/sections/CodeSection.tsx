@@ -10,7 +10,7 @@ type Props = {
   value: string | undefined;
 };
 
-export default function AddCodeSection({
+export default function CodeSection({
   readOnly,
   onChange,
   fileName,

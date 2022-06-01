@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import AddDescriptionSection from "../components/add/AddDescriptionSection";
 import NavBar from "../components/navigations/NavBar";
 import Header from "../components/utils/Header";
 import { useState } from "react";
 import checkExtension from "../utils/checkExtension";
-import AddCodeSection from "../components/add/AddCodeSection";
 import SuccessModal from "../components/notifications/SuccessModal";
 import ErrorCard from "../components/notifications/ErrorCard";
+import DescriptionSection from "../components/sections/DescriptionSection";
+import CodeSection from "../components/sections/CodeSection";
 
 const Home: NextPage = () => {
   let defaultFileName = "Untitled";
@@ -64,11 +64,11 @@ const Home: NextPage = () => {
           // Monaco editor height setting is so confusing for me
           style={{ height: "85vh" }}
         >
-          <AddDescriptionSection
+          <DescriptionSection
             isUploading={isUploading}
             onShareClick={isUploading ? undefined : onShare}
           />
-          <AddCodeSection
+          <CodeSection
             value=""
             readOnly={false}
             onChange={handleInput}

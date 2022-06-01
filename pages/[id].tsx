@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import AddCodeSection from "../components/add/AddCodeSection";
 import NavBar from "../components/navigations/NavBar";
+import CodeSection from "../components/sections/CodeSection";
 import Header from "../components/utils/Header";
 
 const Read: NextPage = () => {
@@ -32,7 +32,7 @@ function ReadSection() {
         commodo consequat.
       </p>
 
-      <AddCodeSection
+      <CodeSection
         readOnly={true}
         onChange={() => {}}
         onBlur={() => {}}
