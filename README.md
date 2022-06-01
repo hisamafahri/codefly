@@ -8,7 +8,7 @@ We use the [Linguist's languages list](https://github.com/github/linguist/blob/m
 
 ## Development
 
-Create `.env.local` file in the root of this project, and fill the values just like the [`.env.example`](.env.example) file.
+This project is using MongoDB as its database. Create `.env.local` file in the root of this project, and fill the values just like the [`.env.example`](.env.example) file.
 
 Then, run the development server:
 
