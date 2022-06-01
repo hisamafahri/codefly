@@ -1,3 +1,5 @@
+![logo](https://i.imgur.com/wbwqtHW.png)
+
 ## CodeFly
 
 Visit [`https://codefly.dev`](https://codefly.dev)
