@@ -1,6 +1,6 @@
 ## CodeFly
 
-_Work in progress..._
+Visit [`https://codefly.dev`](https://codefly.dev)
 
 ## Syntax Highliting
 
@@ -8,7 +8,9 @@ We use the [Linguist's languages list](https://github.com/github/linguist/blob/m
 
 ## Development
 
-First, run the development server:
+Create `.env.local` file in the root of this project, and fill the values just like the [`.env.example`](.env.example) file.
+
+Then, run the development server:
 
 ```bash
 npm run dev
