@@ -11,7 +11,7 @@ const entrySchema = new Schema({
             },
             language: {
                 type: String,
-                required: true,
+                required: false,
             },
             value: {
                 type: String,
