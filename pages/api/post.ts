@@ -10,6 +10,11 @@ export default async function handler(
         // TODO: Add rate limiter
         try {
             const { description, fileName, language, value } = req.body;
+            // Remove all spaces
+            if (value.replace(/\s/g, "") == "") {
+                res.status(400).json({ status: "FAILED", data: "code value is empty or only contains whitespaces" });
+                return
+            }
             await connectDb();
             const entry = await Entry.create({
                 description: description.toString(),
@@ -27,6 +32,6 @@ export default async function handler(
             res.status(500).json({ status: "FAILED", data: err.message });
         }
     } else {
-        res.status(404).json({ status: "FAILED", data: "UNKNOWN_METHOD" });
+        res.status(404).json({ status: "FAILED", data: "HTTP request method not recognized" });
     }
 }

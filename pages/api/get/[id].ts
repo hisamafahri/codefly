@@ -19,11 +19,11 @@ export default async function handler(
             if (result == null || result == undefined) {
                 console.error({
                     status: "FAILED",
-                    data: "ENTRY_NOT_FOUND",
+                    data: "Entry not found",
                 });
                 res.status(404).json({
                     status: "FAILED",
-                    data: "ENTRY_NOT_FOUND",
+                    data: "Entry not found",
                 });
             } else {
                 res.status(200).json({ status: "OK", data: result });
@@ -33,6 +33,6 @@ export default async function handler(
             res.status(500).json({ status: "FAILED", data: err.message });
         }
     } else {
-        res.status(404).json({ status: "FAILED", data: "UNKNOWN_METHOD" });
+        res.status(404).json({ status: "FAILED", data: "HTTP request method is not recognized" });
     }
 }
