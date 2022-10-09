@@ -2,25 +2,40 @@ import { HelpIcon } from "@assets/icon/HelpIcon";
 import Editor, { OnChange, OnMount } from "@monaco-editor/react";
 import { ChangeEventHandler } from "react";
 
-const Code = ({
-  fileName,
-  onFileNameChange,
-  onEditorMount,
-  editorLanguage,
-  editorValue,
-  onEditorChange,
-}: {
+type EnabledType = {
+  disabled: false;
   fileName: string | number | readonly string[] | undefined;
   onFileNameChange: ChangeEventHandler<HTMLInputElement> | undefined;
   onEditorMount: OnMount | undefined;
   editorLanguage: string | undefined;
   editorValue: string | undefined;
   onEditorChange: OnChange | undefined;
-}) => {
+};
+
+type DisabledType = {
+  disabled: true;
+  fileName: string | number | readonly string[] | undefined;
+  onFileNameChange?: ChangeEventHandler<HTMLInputElement> | undefined;
+  onEditorMount: OnMount | undefined;
+  editorLanguage: string | undefined;
+  editorValue: string | undefined;
+  onEditorChange?: OnChange | undefined;
+};
+
+const Code = ({
+  disabled,
+  fileName,
+  onFileNameChange,
+  onEditorMount,
+  editorLanguage,
+  editorValue,
+  onEditorChange,
+}: EnabledType | DisabledType) => {
   return (
     <div className="h-[75vh]">
       <div className="my-2 flex flex-row items-center justify-start">
         <input
+          readOnly={disabled}
           type="text"
           placeholder="file.txt"
           value={fileName}
@@ -41,6 +56,9 @@ const Code = ({
         onChange={onEditorChange}
         language={editorLanguage}
         onMount={onEditorMount}
+        options={{
+          readOnly: disabled,
+        }}
       />
     </div>
   );
