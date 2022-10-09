@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -5,11 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        "base-200": "#1E1E1E",
-        "primary-light": "#8849f4",
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [],
 };

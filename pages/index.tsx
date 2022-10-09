@@ -1,129 +1,118 @@
+import Code from "@components/Code";
+import Description from "@components/Description";
+import NavBar from "@components/NavBar";
+import { Monaco } from "@monaco-editor/react";
 import type { NextPage } from "next";
-import NavBar from "../components/navigations/NavBar";
-import Header from "../components/utils/Header";
-import { useState } from "react";
-import checkExtension from "../utils/checkExtension";
-import SuccessModal from "../components/notifications/SuccessModal";
-import ErrorCard from "../components/notifications/ErrorCard";
-import DescriptionSection from "../components/sections/DescriptionSection";
-import CodeSection from "../components/sections/CodeSection";
-import { createEntry } from "../utils/createEntry";
+import Head from "next/head";
+import { useRef, useState } from "react";
+import { checkExtension } from "@utils/extension";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-    let defaultFileName = "Untitled";
-    const [fileName, setFileName] = useState(defaultFileName);
-    const [language, setLanguage] = useState("");
-    const [description, setDescription] = useState("");
-    const [editorValue, setEditorValue] = useState("");
-    const [isUploading, setIsUploading] = useState(false);
-    const [isErrorVisible, setIsErrorVisible] = useState(false);
-    const [isSuccessVisible, setIsSuccessVisible] = useState(false);
-    const [entryUrl, setEntryUrl] = useState("https://codefly.dev");
+  const router = useRouter();
+  const defaultErrorMessage: string = "Something went wrong!";
+  const [code, setCode] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [language, setLanguage] = useState("");
+  const [description, setDescription] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(defaultErrorMessage);
+  const [isLoading, setIsLoading] = useState(false);
+  const editorRef = useRef(null);
 
-    function handleFileNameInput(event: any) {
-        const input = event.target.value;
-        // Get the file extension
-        // See: https://stackoverflow.com/a/4695156/13540349
-        const language = checkExtension(input.split(".").pop());
+  type RecordBody = {
+    description: string;
+    file_name: string;
+    language: string;
+    code: string;
+  };
 
-        setFileName(input);
+  const handleEditorDidMount = (editor: any, monaco: Monaco) => {
+    console.log("editor", editor, monaco);
+    editorRef.current = editor;
+  };
 
-        if (language == "" || language == undefined) {
-            // Probably need checker for the whole filename as well
-            if (fileName == "Dockerfile" || fileName == "Containerfile") {
-                setLanguage(fileName);
+  const handleFileNameInput = (input: string) => {
+    setFileName(input);
+    // Get the file extension
+    // See: https://stackoverflow.com/a/4695156/13540349
+    const language = checkExtension(input.split(".").pop() as string);
+
+    if (language == "" || language == undefined) {
+      // Probably need checker for the whole filename as well
+      if (fileName == "Dockerfile" || fileName == "Containerfile") {
+        setLanguage(fileName);
+        return;
+      }
+
+      setLanguage(language);
+      return;
+    }
+
+    setLanguage(language);
+  };
+
+  const saveRecord = async (payload: RecordBody) => {
+    const response = await fetch("/api/record", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      setIsError(true);
+      setErrorMessage(response.statusText);
+      setIsLoading(false);
+    }
+    return await response.json();
+  };
+
+  return (
+    <div>
+      <Head>
+        <title>CodeFly - Share your codes easily!</title>
+      </Head>
+      <main>
+        <NavBar />
+        <div className="max-w-7xl mx-8 xl:mx-auto md:space-x-6 grid grid-cols-2 mt-8 h-fit">
+          <Description
+            disabled={false}
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            onShareClick={() => {
+              if (code.replace(/\s/g, "") == "") {
+                setIsError(true);
+                setErrorMessage("Code can't be empty!");
                 return;
-            }
-
-            setLanguage(language);
-            return;
-        }
-
-        setLanguage(language);
-    }
-
-    function handleDescription(event: any) {
-        const input = event.target.value;
-        setDescription(input);
-    }
-
-    function handleEditor(value: any) {
-        setEditorValue(value);
-    }
-
-    function handleOnFileNameBlur() {
-        // Remove all whitespaces
-        if (fileName.replace(/\s/g, "") == "") {
-            setFileName(defaultFileName);
-        }
-    }
-
-    async function onShare() {
-        setIsUploading(true);
-        await createEntry({
-            payload: JSON.stringify({
-                language: language,
-                fileName: fileName,
-                value: editorValue,
-                description: description,
-            }),
-        })
-            .then((res: any) => {
-                setIsUploading(false);
-                if (res.status == "OK") {
-                    setEntryUrl(
-                        `${process.env.NEXT_PUBLIC_BASE_URL}/${res.data._id}`
-                    );
-                    setIsErrorVisible(false);
-                    setIsSuccessVisible(true);
-                } else {
-                    console.error(res);
-                    setIsErrorVisible(true);
-                    setIsSuccessVisible(false);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-                setIsUploading(false);
-                setIsErrorVisible(true);
-                setIsSuccessVisible(false);
-            });
-    }
-
-    return (
-        <>
-            <Header title="CodeFly: share your codes easily" />
-            <main className="font-mono">
-                <NavBar />
-                <div
-                    className="grid grid-cols-2 px-16 gap-x-8 mt-12"
-                    // Monaco editor height setting is so confusing for me
-                    style={{ height: "85vh" }}
-                >
-                    <DescriptionSection
-                        isUploading={isUploading}
-                        onShareClick={isUploading ? undefined : onShare}
-                        descriptionValue={description}
-                        onChangeDescription={handleDescription}
-                    />
-                    <CodeSection
-                        editorValue={editorValue}
-                        onEditorChange={handleEditor}
-                        readOnly={false}
-                        onFileNameChange={handleFileNameInput}
-                        onBlur={handleOnFileNameBlur}
-                        language={language}
-                        fileName={fileName}
-                    />
-                </div>
-                <ErrorCard
-                    isVisible={isErrorVisible}
-                    onClose={() => setIsErrorVisible(false)}
-                />
-                <SuccessModal isVisible={isSuccessVisible} url={entryUrl} />
-            </main>
-        </>
-    );
+              }
+              setIsLoading(true);
+              saveRecord({
+                description,
+                file_name: !fileName ? "file.txt" : fileName,
+                language: !language ? "txt" : language,
+                code,
+              }).then((data) => router.push("/r/" + data.data.id));
+            }}
+            isLoading={isLoading}
+            error={isError}
+            errorMessage={errorMessage}
+          />
+          <Code
+            disabled={false}
+            fileName={fileName}
+            onFileNameChange={(e) => handleFileNameInput(e.target.value)}
+            onEditorMount={handleEditorDidMount}
+            editorLanguage={language}
+            onEditorChange={(e: any) => {
+              setIsError(false);
+              setErrorMessage(defaultErrorMessage);
+              setCode(e);
+            }}
+            editorValue={code}
+          />
+        </div>
+      </main>
+    </div>
+  );
 };
 
 export default Home;

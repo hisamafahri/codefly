@@ -1,4 +1,4 @@
-export default function checkExtension(extension: string) {
+export const checkExtension = (extension: string): string => {
   if (extension == "abap" || extension == "asddls") {
     return "abap";
   }
@@ -692,4 +692,4 @@ export default function checkExtension(extension: string) {
   }
 
   return "";
-}
+};
