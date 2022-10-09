@@ -6,13 +6,26 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRef, useState } from "react";
 import { checkExtension } from "@utils/extension";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const defaultErrorMessage: string = "Something went wrong!";
   const [code, setCode] = useState("");
   const [fileName, setFileName] = useState("");
   const [language, setLanguage] = useState("");
   const [description, setDescription] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(defaultErrorMessage);
+  const [isLoading, setIsLoading] = useState(false);
   const editorRef = useRef(null);
+
+  type RecordBody = {
+    description: string;
+    file_name: string;
+    language: string;
+    code: string;
+  };
 
   const handleEditorDidMount = (editor: any, monaco: Monaco) => {
     console.log("editor", editor, monaco);
@@ -39,6 +52,20 @@ const Home: NextPage = () => {
     setLanguage(language);
   };
 
+  const saveRecord = async (payload: RecordBody) => {
+    const response = await fetch("/api/record", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      setIsError(true);
+      setErrorMessage(response.statusText);
+      setIsLoading(false);
+    }
+    return await response.json();
+  };
+
   return (
     <div>
       <Head>
@@ -48,18 +75,38 @@ const Home: NextPage = () => {
         <NavBar />
         <div className="max-w-7xl mx-8 xl:mx-auto md:space-x-6 grid grid-cols-2 mt-8 h-fit">
           <Description
+            disabled={false}
             onChange={(e) => setDescription(e.target.value)}
             value={description}
             onShareClick={() => {
-              console.log({ description, fileName, language, code });
+              if (code.replace(/\s/g, "") == "") {
+                setIsError(true);
+                setErrorMessage("Code can't be empty!");
+                return;
+              }
+              setIsLoading(true);
+              saveRecord({
+                description,
+                file_name: !fileName ? "file.txt" : fileName,
+                language: !language ? "txt" : language,
+                code,
+              }).then((data) => router.push("/r/" + data.data.id));
             }}
+            isLoading={isLoading}
+            error={isError}
+            errorMessage={errorMessage}
           />
           <Code
+            disabled={false}
             fileName={fileName}
             onFileNameChange={(e) => handleFileNameInput(e.target.value)}
             onEditorMount={handleEditorDidMount}
             editorLanguage={language}
-            onEditorChange={(e: any) => setCode(e)}
+            onEditorChange={(e: any) => {
+              setIsError(false);
+              setErrorMessage(defaultErrorMessage);
+              setCode(e);
+            }}
             editorValue={code}
           />
         </div>

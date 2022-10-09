@@ -1,4 +1,6 @@
 import { ArrowRightIcon } from "@assets/icon/ArrowRightIcon";
+import { SpinnerIcon } from "@assets/icon/SpinnerIcon";
+import { WarningIcon } from "@assets/icon/WarningIcon";
 import { ChangeEventHandler, MouseEventHandler } from "react";
 
 type DisabledType = {
@@ -6,6 +8,9 @@ type DisabledType = {
   onChange?: ChangeEventHandler<HTMLTextAreaElement> | undefined;
   value: string | number | readonly string[] | undefined;
   onShareClick?: MouseEventHandler<HTMLButtonElement> | undefined;
+  error?: boolean;
+  errorMessage?: string;
+  isLoading?: boolean;
 };
 
 type EnabledType = {
@@ -13,6 +18,9 @@ type EnabledType = {
   onChange?: ChangeEventHandler<HTMLTextAreaElement> | undefined;
   value: string | number | readonly string[] | undefined;
   onShareClick?: MouseEventHandler<HTMLButtonElement> | undefined;
+  error?: boolean;
+  errorMessage?: string;
+  isLoading?: boolean;
 };
 
 const Description = ({
@@ -20,6 +28,9 @@ const Description = ({
   value,
   onShareClick,
   disabled,
+  error,
+  errorMessage = "Something went wrong!",
+  isLoading,
 }: DisabledType | EnabledType) => {
   return (
     <div className="space-y-4">
@@ -49,12 +60,28 @@ const Description = ({
       {!disabled && (
         <div className="w-full flex items-center justify-end">
           <button
-            onClick={onShareClick}
-            className="group py-2 px-4 text-xs bg-gray-900 hover:bg-slate-800 text-white flex flex-row items-center justify-center"
+            onClick={isLoading ? () => {} : onShareClick}
+            className={`group py-2 px-4 text-xs text-white flex flex-row items-center justify-center ${
+              isLoading
+                ? "bg-gray-500 cursor-wait"
+                : "bg-gray-900 hover:bg-slate-800"
+            }`}
           >
             Get Shareable Link{" "}
-            <ArrowRightIcon className="ml-2 hidden group-hover:flex" />
+            {isLoading ? (
+              <SpinnerIcon className="ml-2 animate-spin" />
+            ) : (
+              <ArrowRightIcon className="ml-2 hidden group-hover:flex" />
+            )}
           </button>
+        </div>
+      )}
+      {error && (
+        <div className="bg-red-100 border border-red-200 px-4 py-3 flex flex-row items-center justify-start space-x-2">
+          <WarningIcon className="text-red-500" />
+          <p className="text-xs font-light text-red-700">
+            Error: {errorMessage}
+          </p>
         </div>
       )}
     </div>
