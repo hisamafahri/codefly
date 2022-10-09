@@ -6,7 +6,6 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRef, useState } from "react";
 import { checkExtension } from "@utils/extension";
-import { toast, ToastContainer } from "react-toastify";
 
 const Home: NextPage = () => {
   const [code, setCode] = useState("");
@@ -40,18 +39,12 @@ const Home: NextPage = () => {
     setLanguage(language);
   };
 
-  const notifyEmptyCode = () =>
-    toast.warn("Code cannot be empty!", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-
   return (
     <div>
       <Head>
         <title>CodeFly - Share your codes easily!</title>
       </Head>
       <main>
-        <ToastContainer />
         <NavBar />
         <div className="max-w-7xl mx-8 xl:mx-auto md:space-x-6 grid grid-cols-2 mt-8 h-fit">
           <Description
@@ -66,11 +59,7 @@ const Home: NextPage = () => {
             onFileNameChange={(e) => handleFileNameInput(e.target.value)}
             onEditorMount={handleEditorDidMount}
             editorLanguage={language}
-            onEditorChange={(e: any) => {
-              if (code.replace(/ /g, "").length !== 0) {
-              }
-              setCode(e);
-            }}
+            onEditorChange={(e: any) => setCode(e)}
             editorValue={code}
           />
         </div>

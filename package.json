@@ -1,6 +1,6 @@
 {
   "name": "codefly",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -15,8 +15,7 @@
     "monaco-editor": "^0.34.0",
     "next": "12.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "yarn": "^1.22.19"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "18.8.3",
