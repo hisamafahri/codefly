@@ -59,9 +59,7 @@ const Home: NextPage = () => {
     });
 
     if (!response.ok) {
-      setIsError(true);
-      setErrorMessage(response.statusText);
-      setIsLoading(false);
+      return response.json();
     }
     return await response.json();
   };
@@ -90,7 +88,13 @@ const Home: NextPage = () => {
                 file_name: !fileName ? "file.txt" : fileName,
                 language: !language ? "txt" : language,
                 code,
-              }).then((data) => router.push("/r/" + data.data.id));
+              })
+                .then((data) => router.push("/r/" + data.data.id))
+                .catch((err) => {
+                  setIsError(true);
+                  setErrorMessage(err.statusText);
+                  setIsLoading(false);
+                });
             }}
             isLoading={isLoading}
             error={isError}

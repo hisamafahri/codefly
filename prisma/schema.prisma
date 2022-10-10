@@ -13,5 +13,5 @@ model record {
   description String?  @db.VarChar(1024)
   file_name   String   @db.VarChar(256)
   language    String   @db.VarChar(256)
-  code        String
+  code        String   @db.Text
 }
