@@ -71,7 +71,7 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <NavBar />
-        <div className="max-w-7xl mx-8 xl:mx-auto md:space-x-6 grid grid-cols-2 mt-8 h-fit">
+        <div className="max-w-7xl mx-8 xl:mx-auto md:space-y-6 flex flex-col mt-8">
           <Description
             disabled={false}
             onChange={(e) => setDescription(e.target.value)}
